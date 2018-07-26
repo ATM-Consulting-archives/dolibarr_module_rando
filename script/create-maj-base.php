@@ -11,12 +11,12 @@ if(!defined('INC_FROM_DOLIBARR')) {
 	global $db;
 }
 
-
-
-
-
 dol_include_once('/rando/class/rando.class.php');
+dol_include_once('/rando/class/level.class.php');
 
 $o=new rando($db);
+$o->init_db_by_vars();
+
+$o=new level($db);
 $o->init_db_by_vars();
 
