@@ -3,6 +3,7 @@
 require 'config.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functions.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.form.class.php';
+
 dol_include_once('/rando/class/rando.class.php');
 dol_include_once('/rando/lib/rando.lib.php');
 
@@ -101,7 +102,8 @@ if (empty($reshook))
  */
 
 $title=$langs->trans("rando");
-llxHeader('',$title);
+$arrayofcss=array('/rando/css/style_rando.css');
+llxHeader('',$title, '', '', 0, 0,'', $arrayofcss);
 
 if ($action == 'create' && $mode == 'edit')
 {
@@ -140,7 +142,7 @@ print $TBS->render('tpl/card.tpl.php'
 			,'urlcard' => dol_buildpath('/rando/card.php', 1)
 			,'urllist' => dol_buildpath('/rando/list.php', 1)
 			,'showRef' => ($action == 'create') ? $langs->trans('Draft') : $form->showrefnav($object, 'ref', $linkback, 1, 'ref', 'ref', '')
-			,'showLabel' => $formcore->texte('', 'label', $object->label, 80, 255)
+			,'showLabel' => $formcore->texte('', 'blbl', $object->label, 80, 255)
 			,'showStart' => $formcore->texte('', 'start', $object->start, 80, 255)
 			,'showStop' => $formcore->texte('', 'stop', $object->stop, 80, 255)
 			,'showDistance' => $formcore->texte('', 'distance', $object->distance, 80, 255)
