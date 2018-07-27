@@ -122,6 +122,14 @@ $formcore->Set_typeaff($mode);
 
 $form = new Form($db);
 
+//$statutarray=array('1' => $langs->trans("OnSell"), '0' => $langs->trans("NotOnSell"));
+//print $form->selectarray('statut',$statutarray,GETPOST('statut'));
+//exit;
+$myarray = array('ytty','fdffdf','ghgh','qsqss');
+//var_dump($myarray);
+//exit;
+
+
 $formconfirm = getFormConfirmrando($PDOdb, $form, $object, $action);
 if (!empty($formconfirm)) echo $formconfirm;
 
@@ -147,7 +155,7 @@ print $TBS->render('tpl/card.tpl.php'
 			,'showStop' => $formcore->texte('', 'stop', $object->stop, 80, 255)
 			,'showDistance' => $formcore->texte('', 'distance', $object->distance, 80, 255)
 			,'showTemps' => $formcore->texte('', 'temps', $object->temps, 80, 255)
-			,'showDifficulte' => $formcore->texte('', 'difficulte', $object->difficulte, 80, 255)
+			,'showDifficulte' => $form->selectarray('level',$myarray,GETPOST('level'))
 			,'showNote' => $formcore->zonetexte('', 'note', $object->note, 80, 8)
 			,'showStatus' => $object->getLibStatut(1)
 		)

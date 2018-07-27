@@ -15,6 +15,8 @@ $action = GETPOST('action');
 $id = GETPOST('id', 'int');
 $ref = GETPOST('ref');
 
+print $form->selectarray('level',$levelarray,GETPOST('level'));
+
 $mode = 'view';
 if (empty($user->rights->rando->write)) $mode = 'view'; // Force 'view' mode if can't edit object
 else if ($action == 'create' || $action == 'edit') $mode = 'edit';
