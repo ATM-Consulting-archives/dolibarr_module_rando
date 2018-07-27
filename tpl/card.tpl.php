@@ -37,10 +37,10 @@
 				<td>[view.showDifficulte;strconv=no]</td>
 			</tr>-->
 			
-			<tr class="difficulte">
+			<!-- <tr class="difficulte">
 			<td width="25%">[langs.transnoentities(Difficulte)]</td>
 			<td>[view.showDifficulte;strconv=no]</td>
-			</tr>
+			</tr>-->
 			
 			<tr class="status">
 				<td width="25%">[langs.transnoentities(Status)]</td>
