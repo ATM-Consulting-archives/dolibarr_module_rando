@@ -197,6 +197,20 @@ class modrando extends DolibarrModules
 		$this->rights[$r][5] = '';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
 		$r++;
 
+		$this->rights[$r][0] = $this->numero . $r;	// Permission id (must not be already used)
+		$this->rights[$r][1] = 'level_read';	// Permission label
+		$this->rights[$r][3] = 1; 					// Permission by default for new user (0/1)
+		$this->rights[$r][4] = 'read';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
+		$this->rights[$r][5] = '';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
+		$r++;
+		
+		$this->rights[$r][0] = $this->numero . $r;	// Permission id (must not be already used)
+		$this->rights[$r][1] = 'level_write';	// Permission label
+		$this->rights[$r][3] = 1; 					// Permission by default for new user (0/1)
+		$this->rights[$r][4] = 'write';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
+		$this->rights[$r][5] = '';				// In php code, permission will be checked by test if ($user->rights->permkey->level1->level2)
+		$r++;
+		
 
 		// Main menu entries
 		$this->menu = array();			// List of menus to add
@@ -300,6 +314,38 @@ class modrando extends DolibarrModules
 		);				                // 0=Menu for internal users, 1=external users, 2=both
 		$r++;
 
+		
+		$this->menu[$r]=array(
+				'fk_menu'=>'fk_mainmenu=rando,fk_leftmenu=rando_left',		    // Use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
+				'type'=>'left',			                // This is a Left menu entry
+				'titre'=>$langs->trans('create_level_menu_left'),
+				'mainmenu'=>'rando',
+				'leftmenu'=>'level_left_create',
+				'url'=>'/rando/card_level.php?action=create',
+				'langs'=>'rando@rando',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+				'position'=>100+$r,
+				'enabled'=> '$conf->rando->enabled',  // Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
+				'perms'=> '$user->rights->rando->write',			                // Use 'perms'=>'$user->rights->missionorder->level1->level2' if you want your menu with a permission rules
+				'target'=>'',
+				'user'=>2
+		);				                // 0=Menu for internal users, 1=external users, 2=both
+		$r++;
+		
+		$this->menu[$r]=array(
+				'fk_menu'=>'fk_mainmenu=rando,fk_leftmenu=rando_left',		    // Use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
+				'type'=>'left',			                // This is a Left menu entry
+				'titre'=>$langs->trans('lister_level_menu_left'),
+				'mainmenu'=>'rando',
+				'leftmenu'=>'level_left_list',
+				'url'=>'/rando/list_level.php',
+				'langs'=>'rando@rando',	        // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+				'position'=>100+$r,
+				'enabled'=> '$conf->rando->enabled',  // Define condition to show or hide menu entry. Use '$conf->missionorder->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
+				'perms'=> '$user->rights->rando->write',			                // Use 'perms'=>'$user->rights->missionorder->level1->level2' if you want your menu with a permission rules
+				'target'=>'',
+				'user'=>2
+		);				                // 0=Menu for internal users, 1=external users, 2=both
+		$r++;
 		
 		// Exports
 		$r=1;

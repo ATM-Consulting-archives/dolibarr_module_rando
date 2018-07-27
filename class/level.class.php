@@ -184,7 +184,7 @@ class level extends SeedObject
 		if (! empty($this->ref)) $level.= '<br><b>'.$langs->trans('Ref').':</b> '.$this->ref;
 		
 		$linkclose = '" title="'.dol_escape_htmltag($level, 1).'" class="classfortooltip">';
-		$link = '<a href="'.dol_buildpath('/rando/card.php', 1).'?id='.$this->id. $get_params .$linkclose;
+		$link = '<a href="'.dol_buildpath('/rando/card_level.php', 1).'?id='.$this->id. $get_params .$linkclose;
 		
 		$linkend='</a>';
 		
@@ -216,7 +216,7 @@ class level extends SeedObject
 	public static function LibStatut($status, $mode)
 	{
 		global $langs;
-		$langs->load('rando@rando');
+		$langs->load('level@level');
 		
 		if ($status==self::STATUS_DRAFT) { $statustrans='statut0'; $keytrans='levelStatusDraft'; $shortkeytrans='Draft'; }
 		if ($status==self::STATUS_VALIDATED) { $statustrans='statut1'; $keytrans='levelStatusValidated'; $shortkeytrans='Validate'; }

@@ -19,6 +19,8 @@ TopMenurando=Randonnée
 title_main_rando=Randonnée
 create_rando_menu_left=Créer une rando
 lister_rando_menu_left=Lister les randos
+create_level_menu_left=Créer un level
+lister_level_menu_left=lister les levels
 
 # STATUS
 randoStatusDraft=Brouillon (à valider)
