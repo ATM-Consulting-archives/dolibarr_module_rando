@@ -82,7 +82,7 @@ if (empty($reshook))
 			exit;
 			break;
 		case 'confirm_delete':
-			if (!empty($user->rights->rando->write)) $object->delete();
+			if (!empty($user->rights->rando->write)) $object->delete($user);
 			
 			header('Location: '.dol_buildpath('/rando/list_level.php', 1));
 			exit;

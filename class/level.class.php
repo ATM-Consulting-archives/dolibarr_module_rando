@@ -105,7 +105,7 @@ class level extends SeedObject
 	public function delete(User &$user)
 	{
 		
-		$this->generic->deleteObjectLinked();
+		$this->deleteObjectLinked();
 		
 		parent::deleteCommon($user);
 	}

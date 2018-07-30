@@ -26,6 +26,7 @@ elseif (!empty($ref)) $object->loadBy($ref, 'ref');
 
 $hookmanager->initHooks(array('randocard', 'globalcard'));
 
+//var_dump($_POST); exit;
 /*
  * Actions
  */
@@ -41,6 +42,8 @@ if (empty($reshook))
 	switch ($action) {
 		case 'save':
 			$object->setValues($_REQUEST); // Set standard attributes
+			
+	
 			
 //			$object->date_other = dol_mktime(GETPOST('starthour'), GETPOST('startmin'), 0, GETPOST('startmonth'), GETPOST('startday'), GETPOST('startyear'));
 
@@ -82,7 +85,7 @@ if (empty($reshook))
 			exit;
 			break;
 		case 'confirm_delete':
-			if (!empty($user->rights->rando->write)) $object->delete();
+			if (!empty($user->rights->rando->write)) $object->delete($user);
 			
 			header('Location: '.dol_buildpath('/rando/list.php', 1));
 			exit;
@@ -104,7 +107,6 @@ if (empty($reshook))
 $title=$langs->trans("rando");
 $arrayofcss=array('/rando/css/style_rando.css');
 llxHeader('',$title, '', '', 0, 0,'', $arrayofcss);
-
 if ($action == 'create' && $mode == 'edit')
 {
 	load_fiche_titre($langs->trans("Newrando"));
@@ -122,12 +124,15 @@ $formcore->Set_typeaff($mode);
 
 $form = new Form($db);
 
-//$statutarray=array('1' => $langs->trans("OnSell"), '0' => $langs->trans("NotOnSell"));
-//print $form->selectarray('statut',$statutarray,GETPOST('statut'));
-//exit;
-$myarray = array('ytty','fdffdf','ghgh','qsqss');
+$myarray = array('facile'=>'Facile','moyen'=>'Moyen','difficile'=>'Difficile');
 //var_dump($myarray);
 //exit;
+
+/*
+$sql = 'SELECT t.level, \'\' AS action';
+$sql.= ' FROM '.MAIN_DB_PREFIX.'level t ';
+$sql.= ' WHERE 1=1';
+*/
 
 
 $formconfirm = getFormConfirmrando($PDOdb, $form, $object, $action);
@@ -138,6 +143,7 @@ $TBS->TBS->protect=false;
 $TBS->TBS->noerr=true;
 
 if ($mode == 'edit') echo $formcore->begin_form($_SERVER['PHP_SELF'], 'form_rando');
+//var_dump($myarray);
 
 $linkback = '<a href="'.dol_buildpath('/rando/list.php', 1).'">' . $langs->trans("BackToList") . '</a>';
 print $TBS->render('tpl/card.tpl.php'
@@ -155,7 +161,7 @@ print $TBS->render('tpl/card.tpl.php'
 			,'showStop' => $formcore->texte('', 'stop', $object->stop, 80, 255)
 			,'showDistance' => $formcore->texte('', 'distance', $object->distance, 80, 255)
 			,'showTemps' => $formcore->texte('', 'temps', $object->temps, 80, 255)
-			,'showDifficulte' => $form->selectarray('level',$myarray,GETPOST('level'))
+			,'showDifficulte' => $form->selectarray('difficulte',$myarray,$object->difficulte)
 			,'showNote' => $formcore->zonetexte('', 'note', $object->note, 80, 8)
 			,'showStatus' => $object->getLibStatut(1)
 		)

@@ -53,7 +53,7 @@ class rando extends SeedObject
 				,'stop'=>array('type'=>'string')
 				,'distance'=>array('type'=>'int')
 				,'temps'=>array('type'=>'int')
-				,'difficulte'=>array('type'=>'int')
+				,'difficulte'=>array('type'=>'string')//Modifier string en int afin de stocker une clé etrangére de la table level
 				,'status'=>array('type'=>'integer','index'=>true) // date, integer, string, float, array, text
 				,'entity'=>array('type'=>'integer','index'=>true)
 		);
@@ -109,7 +109,7 @@ class rando extends SeedObject
 	public function delete(User &$user)
 	{
 		
-		$this->generic->deleteObjectLinked();
+		$this->deleteObjectLinked();
 		
 		parent::deleteCommon($user);
 	}
