@@ -2,6 +2,7 @@
 
 require 'config.php';
 dol_include_once('/rando/class/rando.class.php');
+dol_include_once('/rando/class/level.class.php');
 
 if(empty($user->rights->rando->read)) accessforbidden();
 
@@ -37,11 +38,13 @@ llxHeader('',$langs->trans('randoList'),'','');
 //if (empty($user->rights->rando->all->read)) $type = 'mine';
 
 // TODO ajouter les champs de son objet que l'on souhaite afficher
-$sql = 'SELECT t.rowid, t.ref, t.label, t.start, t.stop, t.distance, t.temps, t.difficulte, t.date_creation, t.tms, \'\' AS action';
+$sql = 'SELECT t.rowid, t.ref, t.label, t.start, t.stop, t.distance, l.level, t.temps, t.date_creation, t.tms, \'\' AS action
 
-$sql.= ' FROM '.MAIN_DB_PREFIX.'rando t ';
+		FROM '.MAIN_DB_PREFIX.'rando t
+ 		JOIN '.MAIN_DB_PREFIX.'level l ON (t.difficulte = l.rowid)
 
-$sql.= ' WHERE 1=1';
+		WHERE 1=1';
+
 //$sql.= ' AND t.entity IN ('.getEntity('rando', 1).')';
 //if ($type == 'mine') $sql.= ' AND t.fk_user = '.$user->id;
 
@@ -71,7 +74,7 @@ echo $r->render($sql, array(
 		,'stop' => array('search_type' => true, 'table' => array('t', 't'), 'field' => array('stop'))
 		,'distance' => array('search_type' => true, 'table' => array('t', 't'), 'field' => array('distance'))
 		,'temps' => array('search_type' => true, 'table' => array('t', 't'), 'field' => array('temps'))
-		,'difficulte' => array('search_type' => true, 'table' => array('t', 't'), 'field' => array('difficulte'))
+		,'level' => array('search_type' => true, 'table' => array('l', 'l'), 'field' => array('level'))
 		,'status' => array('search_type' => rando::$TStatus, 'to_translate' => true) // select html, la clé = le status de l'objet, 'to_translate' à true si nécessaire
 	)
 	,'translate' => array()
@@ -94,7 +97,7 @@ echo $r->render($sql, array(
 		,'stop' => $langs->trans('Stop')
 		,'distance' => $langs->trans('Distance')
 		,'temps' => $langs->trans('Temps')
-		,'difficulte' => $langs->trans('difficulte')
+		,'level' => $langs->trans('level')
 		,'date_creation' => $langs->trans('DateCre')
 		,'tms' => $langs->trans('DateMaj')
 	)
