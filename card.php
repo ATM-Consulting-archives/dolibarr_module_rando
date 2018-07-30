@@ -124,16 +124,24 @@ $formcore->Set_typeaff($mode);
 
 $form = new Form($db);
 
-$myarray = array('facile'=>'Facile','moyen'=>'Moyen','difficile'=>'Difficile');
+//$myarray = array('facile'=>'Facile','moyen'=>'Moyen','difficile'=>'Difficile');
 //var_dump($myarray);
 //exit;
 
-/*
-$sql = 'SELECT t.level, \'\' AS action';
+$sql = 'SELECT t.level, t.rowid';
 $sql.= ' FROM '.MAIN_DB_PREFIX.'level t ';
-$sql.= ' WHERE 1=1';
-*/
+//$sql.= ' WHERE 1=1';
+$dataresult = $db->query($sql);
 
+$TlistSelectDifficulte = array();
+
+while ($display = $db->fetch_object($dataresult)) {
+	$TlistSelectDifficulte[$display->rowid] =  $display->level;
+}
+
+var_dump($TlistSelectDifficulte);
+
+//var_dump($myarray);
 
 $formconfirm = getFormConfirmrando($PDOdb, $form, $object, $action);
 if (!empty($formconfirm)) echo $formconfirm;
@@ -161,7 +169,7 @@ print $TBS->render('tpl/card.tpl.php'
 			,'showStop' => $formcore->texte('', 'stop', $object->stop, 80, 255)
 			,'showDistance' => $formcore->texte('', 'distance', $object->distance, 80, 255)
 			,'showTemps' => $formcore->texte('', 'temps', $object->temps, 80, 255)
-			,'showDifficulte' => $form->selectarray('difficulte',$myarray,$object->difficulte)
+			,'showDifficulte' => $form->selectarray('difficulte',$TlistSelectDifficulte,$object->difficulte)
 			,'showNote' => $formcore->zonetexte('', 'note', $object->note, 80, 8)
 			,'showStatus' => $object->getLibStatut(1)
 		)

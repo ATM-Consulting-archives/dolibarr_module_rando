@@ -49,7 +49,7 @@ class level extends SeedObject
 		
 		$this->fields=array(
 				'ref'=>array('type'=>'string','length'=>50,'index'=>true)
-				,'level'=>array('type'=>'string')
+				,'difficulte'=>array('type'=>'string')
 				,'status'=>array('type'=>'integer','index'=>true) // date, integer, string, float, array, text
 				,'entity'=>array('type'=>'integer','index'=>true)
 		);

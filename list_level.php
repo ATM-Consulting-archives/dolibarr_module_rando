@@ -87,7 +87,7 @@ echo $r->render($sql, array(
 	,'title'=>array(
 		'ref' => $langs->trans('Ref.')
 		,'level' => $langs->trans('Level')
-		,'date_creation' => $langs->trans('DateCre')
+		,'date_creation' => $langs->trans('Date Creation')
 		,'tms' => $langs->trans('DateMaj')
 	)
 	,'eval'=>array(

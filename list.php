@@ -94,7 +94,7 @@ echo $r->render($sql, array(
 		,'stop' => $langs->trans('Stop')
 		,'distance' => $langs->trans('Distance')
 		,'temps' => $langs->trans('Temps')
-		,'difficulte' => $langs->trans('Difficulte')
+		,'difficulte' => $langs->trans('difficulte')
 		,'date_creation' => $langs->trans('DateCre')
 		,'tms' => $langs->trans('DateMaj')
 	)
