@@ -1,8 +1,16 @@
+<?php
+	include 'data.php';
+	
+	$nom = 'test';
+	$distance = 'test';
+	$difficulte = 'test';
+?>
 <!DOCTYPE html>
 <html>
 	<head>
 	</head>
 	<body>
+		<?php echo date('d/m/Y h:i:s'); ?>
 		<div class="container">
 			<a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/list.php">Lien vers liste</a>
 			<h4>Card Edit</h4>
@@ -36,18 +44,22 @@
 		<div class="container">
 			<h4>Card Show</h4>
 			<table>
-				<tr>
-					<td>Nom</td>
-					<td><p>Name Rando</p></td>
-				</tr>
-				<tr>
-					<td>Distance</td>
-					<td><p>15 km</p></td>
-				</tr>
-				<tr>
-					<td>Difficulte</td>
-					<td><p>Diffficile</p></td>
-				</tr>
+				<?php 
+					print "
+							<tr>
+								<td>Nom</td>
+								<td><p>".$rando['nom']."</p></td>
+							</tr>
+							<tr>
+								<td>Distance</td>
+								<td><p>".$rando['distance']."</p></td>
+							</tr>
+							<tr>
+								<td>Difficulte</td>
+								<td><p>".$rando['difficulte']."</p></td>
+							</tr>
+					";
+				?>
 			</table>
 			<a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/card.php?id=1&action=modify">Modifier</a>
 			<a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/card.php?id=1&action=delete">Supprimer</a>

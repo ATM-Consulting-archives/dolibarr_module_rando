@@ -1,3 +1,6 @@
+<?php
+	include 'data.php';
+?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -12,6 +15,7 @@
 	</style>
 	</head>
 	<body>
+	
 		<div class="container">
 			<a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/card.php?action=create" >Créér nouvelle rando</a>
 			<h4>List</h4>
@@ -21,13 +25,18 @@
 					<td><h4>DISTANCE</h4></td>
 					<td><h4>DIFFICULTE</h4></td>
 				</tr>
-			</table>
-			<table>
-				<tr>
-					<td><a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/card.php?id=1">test</a></td>
-					<td>test</td>
-					<td>test</td>
-				</tr>
+
+				<?php 
+				foreach($TRandos AS $id => $rando) {
+							print '<tr>				
+									<td><a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/card.php?id='
+									.$rando['id'].'&nom='.$rando['nom'].'&distance='.$rando['distance'].'&difficulte='.$rando['difficulte'].'">'.$rando['nom'].'</a></td>
+									<td>'.$rando['distance'].'</td>
+									<td>'.$rando['difficulte'].'</td>
+								</tr>';
+							}
+				?>
+
 			</table>
 		</div><!-- fin de container -->
 	</body>
