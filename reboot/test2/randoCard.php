@@ -7,6 +7,11 @@
 	$id_rando = $_POST['id_rando'];
 	$id_wayPoint = $_POST['id_wayPoint'];
 	
+
+	
+	$fk_id_rando = $_GET['id_rando'];
+
+	
 	//je verifie si j'ai une valeur d'id
 	if (empty ($id_rando)) {
 		$id_rando = $_GET['id_rando'];
@@ -125,8 +130,11 @@
 		</tr>
 		
 		<?php 
-		fetchAllWayPoint();
-		$reponse_wp = fetchAllWayPoint($req_wp);
+				
+		var_dump($fk_id_rando);
+		echo $fk_id_rando;
+		fetchRandoWayPoint($fk_id_rando);
+		$reponse_wp = fetchRandoWayPoint($fk_id_rando);
 
 		while ($donnees_wp = $reponse_wp->fetch()) // On affiche chaque entrée une à une
 		{

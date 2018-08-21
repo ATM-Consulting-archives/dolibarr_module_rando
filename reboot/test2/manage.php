@@ -30,14 +30,14 @@ function fetchAllRando () {
 	return $req;
 }
 
-function fetchOneRando ($id) {
+function fetchOneRando ($id_rando) {
 	global $bdd;
-	$req = $bdd->query('SELECT * FROM rando WHERE id_rando = '.$id);
+	$req = $bdd->query('SELECT * FROM rando WHERE id_rando = '.$id_rando);
 	
 	return $req->fetch();//on récupére uniquement la bonne ligne
 }
 
-function updateRando ($id, $name, $distance, $difficulte) {
+function updateRando ($id_rando, $name, $distance, $difficulte) {
 	global $bdd;
 	$reponse = $bdd->prepare('UPDATE rando SET name = :name, distance = :distance, difficulte = :difficulte WHERE id_rando = :id_rando');
 	
@@ -49,7 +49,7 @@ function updateRando ($id, $name, $distance, $difficulte) {
 	));
 }
 
-function deleteRando($id) {
+function deleteRando($id_rando) {
 	global $bdd;
 	$reponse = $bdd->prepare('DELETE FROM rando WHERE id_rando = :id_rando');
 	
@@ -73,6 +73,13 @@ function fetchAllWayPoint () {
 	global $bdd;
 	$req_wp = $bdd->query('SELECT * FROM wayPoint');
 	
+	return $req_wp;
+}
+
+function fetchRandoWayPoint ($fk_id_rando) {
+	global $bdd;
+	$req_wp = $bdd->query('SELECT * FROM wayPoint WHERE fk_id_rando = ' .$fk_id_rando);
+		
 	return $req_wp;
 }
 
