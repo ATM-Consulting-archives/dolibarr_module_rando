@@ -1,32 +1,23 @@
 <?php
-	include 'data.php';
-	
-	$nom = 'test';
-	$distance = 'test';
-	$difficulte = 'test';
+	include '../layout/layoutStart.php';
 ?>
-<!DOCTYPE html>
-<html>
-	<head>
-	</head>
-	<body>
-		<?php echo date('d/m/Y h:i:s'); ?>
-		<div class="container">
-			<a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/list.php">Lien vers liste</a>
-			<h4>Card Edit</h4>
-			<form action="http://localhost/dolibarr/htdocs/custom/rando/reboot/card.php?id=1" method="get">
+
+
+			<a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/test1/randoList.php">Lien vers randoList</a>
+			<h4>randoCreate</h4>
+			<form action="http://localhost/dolibarr/htdocs/custom/rando/reboot/test1/randoCreateFunction.php" method="post">
 				<input type="hidden" name="id" value="1">
-				<input type="hidden" name="action" value="update">
+				<input type="hidden" name="action" value="create">
 				<table>
 					<tr>
-						<td><label for="nom">Nom : </label></td>
-						<td><input type="text" id="nom" name="nom"></td>
+						<td><label for="name">Nom : </label></td>
+						<td><input type="text" id="name" name="name"></td>
 					</tr>
 					<tr>
 						<td><label for="distance">Distance : </label></td>
 						<td><input type="text" id="distance" name="distance"></td>
 					</tr>
-					<tr>
+				<!--<tr>
 						<td><label for="difficulte">Difficulte : </label></td>
 						<td>
 							<select id="difficulte" name="difficulte">
@@ -35,13 +26,16 @@
 								<option value="difficile">Difficile</option>
 							</select>
 						</td>
-					</tr>
+					</tr>-->
 				</table>
 				<button type="submit">Valider</button>		
 			</form>
-		</div><!-- fin de container -->
+
+		
+		
+		
 			
-		<div class="container">
+
 			<h4>Card Show</h4>
 			<table>
 				<?php 
@@ -63,7 +57,9 @@
 			</table>
 			<a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/card.php?id=1&action=modify">Modifier</a>
 			<a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/card.php?id=1&action=delete">Supprimer</a>
-		</div><!-- fin de container -->
+
 		
-	</body>
-</html>
+	<?php 
+	include '../layout/layoutEnd.php';
+	?>
+	
