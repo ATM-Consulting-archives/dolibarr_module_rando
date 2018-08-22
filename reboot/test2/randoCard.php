@@ -58,19 +58,19 @@
 		var_dump($_POST['id_wayPoint']);
 // 		exit;
  		createWayPoint($_POST['lattitude'], $_POST['longitude'], $_POST['id_rando']);
- 		header('Location: randoCard.php?id_rando='. $_POST['id_rando']);
+		header('Location: randoCard.php?id_rando='. $donnees['id_rando']);
 		exit;
 	}
 	
 	if ($action_wp == 'updateWayPoint') {
 		updateWayPoint($_POST['id_wayPoint'], $_POST['lattitude'], $_POST['longitude']);
-		header('Location: randoCard.php');
+		header('Location: randoCard.php?id_rando='. $donnees['id_rando']);
 		exit;
 	}
 	
 	if ($action_wp == 'deleteWayPoint') {
 		deleteWayPoint($_POST['id_wayPoint']);
-		header('Location: randoCard.php');
+		header('Location: randoCard.php?id_rando='. $donnees['id_rando']);
 		exit;
 	}
 	
@@ -144,7 +144,7 @@
 		<tr>
 			<form action="http://localhost/dolibarr/htdocs/custom/rando/reboot/test2/randoCard.php" method="post">
 				<input type="hidden" name="id_wayPoint" value="<?php echo $donnees_wp['id_wayPoint']; ?>">
-				<input type="hidden" name="id_rando2" value="2">
+				<input type="hidden" name="id_rando" value="<?php echo $donnees['id_rando']; ?>">
 				<input type="hidden" name="action_wp" value="updateWayPoint">
 				<td>
 					<input type="text" id="lattitude" name="lattitude" value="<?php echo $donnees_wp['lattitude']; ?>">			 
@@ -159,6 +159,7 @@
 				<td>
 					<form action="http://localhost/dolibarr/htdocs/custom/rando/reboot/test2/randoCard.php" method="post">
 						<input type="hidden" name="id_wayPoint" value="<?php echo $donnees_wp['id_wayPoint']; ?>">
+						<input type="hidden" name="id_rando" value="<?php echo $donnees['id_rando']; ?>">
 						<input type="hidden" name="action_wp" value="deleteWayPoint">
 						<button type="submit">Supprimer</button>
 					</form>

@@ -9,6 +9,10 @@ catch (Exception $e)
 	die('Erreur : ' . $e->getMessage());// En cas d'erreur, on affiche un message et on arrête tout
 }
 
+// $heure = time();
+// $requete = "CREATE DATABASE test$heure DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci";
+// $bdd->prepare($requete)->execute();
+
 
 //fonction pour les rando
 function createRando ($name, $distance, $difficulte) {
