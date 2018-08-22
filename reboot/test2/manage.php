@@ -13,7 +13,7 @@ catch (Exception $e)
 //fonction pour les rando
 function createRando ($name, $distance, $difficulte) {
 	global $bdd;
-	$req = $bdd->prepare('INSERT INTO rando(name, distance) VALUES(:name, :distance, :difficulte)');
+	$req = $bdd->prepare('INSERT INTO rando(name, distance, difficulte) VALUES(:name, :distance, :difficulte)');
 	
 	$req->execute(array(
 			'name' => $name
@@ -59,14 +59,17 @@ function deleteRando($id_rando) {
 }
 
 //fonction pour les wayPoint
-function createWayPoint($lattitude, $longitude) {
+function createWayPoint($lattitude, $longitude, $id_rando) {
+ 	
 	global $bdd;
-	$req_wp = $bdd->prepare('INSERT INTO wayPoint(lattitude, longitude) VALUES(:lattitude, :longitude)');
+	$req_wp = $bdd->prepare('INSERT INTO wayPoint(lattitude, longitude, fk_id_rando) VALUES(:lattitude, :longitude, :fk_id_rando)');
 	
 	$req_wp->execute(array(
 			'lattitude' => $lattitude
 			,'longitude' => $longitude
+			,'fk_id_rando' => $id_rando
 	));
+	return;
 }
 
 function fetchAllWayPoint () {
@@ -76,10 +79,12 @@ function fetchAllWayPoint () {
 	return $req_wp;
 }
 
-function fetchRandoWayPoint ($fk_id_rando) {
+function fetchRandoWayPoint ($id_rando_for_wayPoint) {
+
 	global $bdd;
-	$req_wp = $bdd->query('SELECT * FROM wayPoint WHERE fk_id_rando = ' .$fk_id_rando);
-		
+	$req = 'SELECT * FROM wayPoint WHERE fk_id_rando = '.$id_rando_for_wayPoint;
+	$req_wp = $bdd->query($req);
+	
 	return $req_wp;
 }
 

@@ -1,18 +1,14 @@
 <?php
 	include 'manage.php';
 	include '../layout/layoutStart.php';
-
+	
 	
 	//je determine si j'ai des valeurs d'entrée par un id et j'affecte cette valeur à ma variable pour déterminer la suite
 	$id_rando = $_POST['id_rando'];
-	$id_wayPoint = $_POST['id_wayPoint'];
-	
 
+	$id_rando_for_wayPoint = (intval($_GET['id_rando']));
 	
-	$fk_id_rando = $_GET['id_rando'];
-
-	
-	//je verifie si j'ai une valeur d'id
+		//je verifie si j'ai une valeur d'id
 	if (empty ($id_rando)) {
 		$id_rando = $_GET['id_rando'];
 	}
@@ -31,18 +27,21 @@
 	} 
 	
 	if ($action == 'createRando') {
-		createRando($_POST['name'], $_POST['distance'], $_POST['difficultes']);
+		createRando($_POST['name'], $_POST['distance'], $_POST['difficulte']);
 		header('Location: randoCard.php');
+		exit;
 	}
 	
 	if ($action == 'updateRando') {
-		updateRando($_POST['id_rando'], $_POST['name'], $_POST['distance'], $_POST['difficultes']);
+		updateRando($_POST['id_rando'], $_POST['name'], $_POST['distance'], $_POST['difficulte']);
 		header('Location: randoCard.php');
+		exit;
 	}
 	
 	if ($action == 'deleteRando') {
 		deleteRando($_POST['id_rando']);
 		header('Location: randoCard.php');
+		exit;
 	}
 	if ($id_rando != '') {
 		$action = 'updateRando';
@@ -56,18 +55,23 @@
 	}
 	
 	if ($action_wp == 'createWayPoint') {
-		createWayPoint($_POST['lattitude'], $_POST['longitude']);
-		header('Location: randoCard.php');
+		var_dump($_POST['id_wayPoint']);
+// 		exit;
+ 		createWayPoint($_POST['lattitude'], $_POST['longitude'], $_POST['id_rando']);
+ 		header('Location: randoCard.php?id_rando='. $_POST['id_rando']);
+		exit;
 	}
 	
 	if ($action_wp == 'updateWayPoint') {
 		updateWayPoint($_POST['id_wayPoint'], $_POST['lattitude'], $_POST['longitude']);
 		header('Location: randoCard.php');
+		exit;
 	}
 	
 	if ($action_wp == 'deleteWayPoint') {
 		deleteWayPoint($_POST['id_wayPoint']);
 		header('Location: randoCard.php');
+		exit;
 	}
 	
 	?>
@@ -130,12 +134,9 @@
 		</tr>
 		
 		<?php 
-				
-		var_dump($fk_id_rando);
-		echo $fk_id_rando;
-		fetchRandoWayPoint($fk_id_rando);
-		$reponse_wp = fetchRandoWayPoint($fk_id_rando);
-
+	
+		$reponse_wp = fetchRandoWayPoint($id_rando_for_wayPoint);
+	
 		while ($donnees_wp = $reponse_wp->fetch()) // On affiche chaque entrée une à une
 		{
 		?><!--  on ferme le php-->
@@ -143,6 +144,7 @@
 		<tr>
 			<form action="http://localhost/dolibarr/htdocs/custom/rando/reboot/test2/randoCard.php" method="post">
 				<input type="hidden" name="id_wayPoint" value="<?php echo $donnees_wp['id_wayPoint']; ?>">
+				<input type="hidden" name="id_rando2" value="2">
 				<input type="hidden" name="action_wp" value="updateWayPoint">
 				<td>
 					<input type="text" id="lattitude" name="lattitude" value="<?php echo $donnees_wp['lattitude']; ?>">			 
@@ -171,15 +173,16 @@
 		<tr>
 			<form action="http://localhost/dolibarr/htdocs/custom/rando/reboot/test2/randoCard.php" method="post">
 				<input type="hidden" name="id_wayPoint" value="<?php echo $donnees_wp['id_wayPoint']; ?>">
+				<input type="hidden" name="id_rando" value="<?php echo $donnees['id_rando']; ?>">
 				<input type="hidden" name="action_wp" value="createWayPoint">
 				<td>
-					<input type="text" id="lattitude" name="lattitude">
+					<input type="text" id="lattitude" name="lattitude" placeholder="saisir une lattitude">
 				</td>
 				<td>
-					<input type="text" id="longitude" name="longitude">
+					<input type="text" id="longitude" name="longitude" placeholder="saisir une longitude">
 				</td>
 				<td>
-					<button type="submit">ajouter un WayPoint</button>
+					<button type="submit">Sauvegarder le WayPoint</button>
 				</td>
 			</form>
 		</tr>
