@@ -53,7 +53,7 @@ class Rando {
 		));
 	}
 	
-	public function deleteRando(Rando $id_rando) {
+	public function deleteRando(Rando $rando, $id_rando) {
 		global $bdd;
 		$reponse = $bdd->prepare('DELETE FROM rando WHERE id_rando = :id_rando');
 		

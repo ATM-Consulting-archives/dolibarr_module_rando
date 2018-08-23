@@ -41,7 +41,8 @@
 	}
 	
 	if ($action == 'deleteRando') {
-		deleteRando($_POST['id_rando']);
+		$rando = new Rando();
+		$rando ->  deleteRando($rando, $_POST['id_rando']);
 		header('Location: randoCard.php');
 		exit;
 	}
