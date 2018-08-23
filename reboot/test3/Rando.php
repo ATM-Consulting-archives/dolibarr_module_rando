@@ -2,7 +2,7 @@
 
 try
 {
-	$bdd = new PDO('mysql:host=localhost;dbname=randoTest;charset=utf8', 'randoTest', 'randoTest', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));// On se connecte à MySQL
+	$bdd = new PDO('mysql:host=localhost;dbname=randoTest2;charset=utf8', 'randoTest', 'randoTest', array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));// On se connecte à MySQL
 }
 catch (Exception $e)
 {
@@ -16,7 +16,7 @@ class Rando {
 	public $distance;
 	public $difficulte;
 		
-	public function createRando(Rando $id_rando, $name, $distance, $difficulte) {
+	public function createRando(Rando $rando, $name, $distance, $difficulte) {
 		global $bdd;
 		
 		$req = $bdd->prepare('INSERT INTO rando(name, distance, difficulte) VALUES(:name, :distance, :difficulte)');
@@ -36,7 +36,7 @@ class Rando {
 		return $req;
 	}
 	
-	public function fetchOneRando(Rando $randos, $id_rando) {
+	public function fetchOneRando(Rando $rando, $id_rando) {
 		global $bdd;
 		$req = $bdd->query('SELECT * FROM rando WHERE id_rando = '.$id_rando);
 		

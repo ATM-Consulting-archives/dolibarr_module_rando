@@ -1,5 +1,5 @@
 <?php
-	include '../connect2.php';
+
 	include 'Rando.php';
 	include '../layout/layoutStart.php';
 	
@@ -13,8 +13,8 @@
 	}
 
 	if (!empty ($id_rando) ){
-		$randos = new Rando();
-		$donnees = $randos->fetchOneRando($randos, $id_rando);
+		$rando = new Rando();
+		$donnees = $rando->fetchOneRando($rando, $id_rando);
 	}
 
 	
@@ -27,7 +27,8 @@
 	} 
 	
 	if ($action == 'createRando') {
-		createRando($_POST['name'], $_POST['distance'], $_POST['difficulte']);
+		$rando = new Rando();
+		$rando -> createRando($rando, $_POST['name'], $_POST['distance'], $_POST['difficulte']);
 		header('Location: randoCard.php');
 		exit;
 	}
