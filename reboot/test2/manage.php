@@ -24,7 +24,6 @@ function createRando ($name, $distance, $difficulte) {
 			,'distance' => $distance
 			,'difficulte' => $difficulte
 	));
-	
 }
 
 function fetchAllRando () {
