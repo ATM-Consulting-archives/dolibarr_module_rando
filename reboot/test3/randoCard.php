@@ -34,7 +34,8 @@
 	}
 	
 	if ($action == 'updateRando') {
-		updateRando($_POST['id_rando'], $_POST['name'], $_POST['distance'], $_POST['difficulte']);
+		$rando = new Rando();
+		$rando -> updateRando($rando, $_POST['id_rando'], $_POST['name'], $_POST['distance'], $_POST['difficulte']);
 		header('Location: randoCard.php');
 		exit;
 	}

@@ -18,7 +18,6 @@ class Rando {
 		
 	public function createRando(Rando $rando, $name, $distance, $difficulte) {
 		global $bdd;
-		
 		$req = $bdd->prepare('INSERT INTO rando(name, distance, difficulte) VALUES(:name, :distance, :difficulte)');
 		
 		$req->execute(array(
@@ -30,7 +29,6 @@ class Rando {
 	
 	public function fetchAllRando() {
 		global $bdd;
-		
 		$req = $bdd->query('SELECT * FROM rando');
 		
 		return $req;
@@ -43,7 +41,7 @@ class Rando {
 		return $req->fetch();//on récupére uniquement la bonne ligne
 	}
 	
-	public function updateRando(Rando $id_rando, $name, $distance, $difficulte) {
+	public function updateRando(Rando $rando, $id_rando, $name, $distance, $difficulte) {
 		global $bdd;
 		$reponse = $bdd->prepare('UPDATE rando SET name = :name, distance = :distance, difficulte = :difficulte WHERE id_rando = :id_rando');
 		
