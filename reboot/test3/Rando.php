@@ -7,7 +7,11 @@ class Rando {
 	public $distance;
 	public $difficulte;
 	
-	public function createRando(Rando $rando, $name, $distance, $difficulte) {
+	public function createRando($name, $distance, $difficulte) {
+		$this -> name = $name;
+		$this -> distance = $distance;
+		$this -> difficulte = $difficulte;
+		
 		global $bdd;//connexion à la bdd par une supervariable
 		$req = $bdd->prepare('INSERT INTO rando(name, distance, difficulte) VALUES(:name, :distance, :difficulte)');
 		
@@ -16,6 +20,8 @@ class Rando {
 				,'distance' => $distance
 				,'difficulte' => $difficulte
 		));
+				 
+		$this -> id_rando = $bdd -> lastInsertId();
 	}
 	
 	public function fetchAllRando() {
@@ -25,14 +31,18 @@ class Rando {
 		return $req;
 	}
 	
-	public function fetchOneRando(Rando $rando, $id_rando) {
+	public function fetchOneRando($id_rando) {
 		global $bdd;//connexion à la bdd par une supervariable
 		$req = $bdd->query('SELECT id_rando, name, distance, difficulte FROM rando WHERE id_rando = '.$id_rando);
 		
 		return $req->fetch();//on récupére uniquement la bonne ligne
 	}
 	
-	public function updateRando(Rando $rando, $id_rando, $name, $distance, $difficulte) {
+	public function updateRando($id_rando, $name, $distance, $difficulte) {
+		$this -> id_rando = $id_rando;
+		$this -> name = $name;
+		$this -> distance = $distance;
+		$this -> difficulte = $difficulte;
 		global $bdd;//connexion à la bdd par une supervariable
 		$reponse = $bdd->prepare('UPDATE rando SET name = :name, distance = :distance, difficulte = :difficulte WHERE id_rando = :id_rando');
 		
@@ -42,9 +52,10 @@ class Rando {
 				,'distance' => $_POST['distance']
 				,'difficulte' => $_POST['difficulte']
 		));
+		$this -> id_rando;
 	}
 	
-	public function deleteRando(Rando $rando, $id_rando) {
+	public function deleteRando($id_rando) {
 		global $bdd;//connexion à la bdd par une supervariable
 		$reponse = $bdd->prepare('DELETE FROM rando WHERE id_rando = :id_rando');
 		

@@ -3,7 +3,6 @@ include 'Rando.php';
 include 'WayPoint.php';
 include '../layout/layoutStart.php';
 
-
 //je determine si j'ai des valeurs d'entrée par un id et j'affecte cette valeur à ma variable pour déterminer la suite
 $id_rando = $_POST['id_rando'];
 
@@ -13,15 +12,23 @@ if (empty ($id_rando)) {
 }
 if (!empty ($id_rando) ){
 	$rando = new Rando();
-	$donnees = $rando->fetchOneRando($rando, $id_rando);
+	$donnees = $rando->fetchOneRando($id_rando);
 }
 
 //je determine si j'ai des actions à faire pour une rando
 $action = $_POST['action'];
 $action_wp = $_POST['action_wp'];
 $act_btn = 'Enregistrer la saisie';
-
+$message = $_GET['answer'];
 $titre = 'Formulaire de création';
+
+if ($message !='') {
+	if ($message == 'createOk') {
+		$displayMessage = 'est enregistée';
+	} if ($message == 'updateOk') {
+		$displayMessage = 'à été modifiée';
+	}
+}
 
 if ($action === '') {
 	$action = 'createRando';
@@ -29,21 +36,28 @@ if ($action === '') {
 
 if ($action == 'createRando') {
 	$rando = new Rando();
-	$rando -> createRando($rando, $_POST['name'], $_POST['distance'], $_POST['difficulte']);
-	header('Location: randoCard.php');
+	$rando -> createRando($_POST['name'], $_POST['distance'], $_POST['difficulte']);
+	header('Location: randoCard.php?answer=createOk&name_rando='.$rando->name.'&distance='.$rando->distance. '&difficulte=' .$rando->difficulte);
 	exit;
+}
+
+if ($message != '') {
+	$name_temp = $_GET['name_rando'];
+	$distance_temp = $_GET['distance'];
+	$difficulte_temp = $_GET['difficulte'];
+	$saveOk = 'La rando ' . $name_temp. ' d\'une distance de ' .$distance_temp. ' km et de difficulté ' .$difficulte_temp. ' '. $displayMessage;
 }
 
 if ($action == 'updateRando') {
 	$rando = new Rando();
-	$rando -> updateRando($rando, $_POST['id_rando'], $_POST['name'], $_POST['distance'], $_POST['difficulte']);
-	header('Location: randoCard.php');
+	$rando -> updateRando($_POST['id_rando'], $_POST['name'], $_POST['distance'], $_POST['difficulte']);
+	header('Location: randoCard.php?answer=updateOk&name_rando='.$rando->name.'&distance='.$rando->distance. '&difficulte=' .$rando->difficulte);
 	exit;
 }
 
 if ($action == 'deleteRando') {
 	$rando = new Rando();
-	$rando ->  deleteRando($rando, $_POST['id_rando']);
+	$rando ->  deleteRando($_POST['id_rando']);
 	header('Location: randoCard.php');
 	exit;
 }
@@ -52,6 +66,7 @@ if ($id_rando != '') {
 	$act_btn = 'Enregistrer la modif';
 	$titre = 'Formulaire de modifications';
 }
+
 
 //je determine si j'ai des actions à faire pour des wayPoint
 $action_wp = $_POST['action_wp'];
@@ -82,12 +97,13 @@ if ($action_wp == 'deleteWayPoint') {
 	exit;
 }
 
-
 ?>
-		
+
 <a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/test3/randoCard.php">Créer une rando</a>
 
 <h2><?php echo $titre ?></h2>
+
+<p class="red"><?php echo $saveOk?>
 
 <table>
 	<form action="http://localhost/dolibarr/htdocs/custom/rando/reboot/test3/randoCard.php" method="post">
@@ -108,6 +124,7 @@ if ($action_wp == 'deleteWayPoint') {
 			<td>
 				<input type="text" id="distance" name="distance" value="<?php echo $donnees['distance']; ?>" placeholder="saisir une distance">
 			</td>
+			<td>km</td>
 		</tr>
 		<tr>
 			<td><label for="difficulte">Difficulte : </label></td>
@@ -115,7 +132,7 @@ if ($action_wp == 'deleteWayPoint') {
 				<select id="difficulte" name="difficulte">
 					<option value="<?php echo $donnees['difficulte']; ?>"><?php echo $donnees['difficulte']; ?></option>
 					<option value="facile">Facile</option>
-					<option value="moyen">Moyen</option>
+					<option value="moyenne">Moyenne</option>
 					<option value="difficile">Difficile</option>
 				</select>
 			</td>
@@ -134,6 +151,8 @@ if ($action_wp == 'deleteWayPoint') {
 			</td>
 		</tr>
 </table>
+
+
 <br>
 <table class="center">
 	<thead>

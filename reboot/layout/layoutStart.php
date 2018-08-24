@@ -10,6 +10,9 @@
 			.center {
 				text-align: center;
 			}
+			.red {
+				color: red;
+			}
 		</style> 
 		
 	</head>
