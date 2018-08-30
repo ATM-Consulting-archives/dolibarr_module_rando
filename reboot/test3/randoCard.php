@@ -78,21 +78,21 @@ if ($action_wp === '') {
 
 if ($action_wp == 'createWayPoint') {
 	$wayPoint = new WayPoint();
-	$wayPoint -> createWayPoint($wayPoint, $_POST['lattitude'], $_POST['longitude'], $_POST['id_rando']);
+	$wayPoint -> createWayPoint($_POST['lattitude'], $_POST['longitude'], $_POST['id_rando']);
 	header('Location: randoCard.php?id_rando='. $donnees['id_rando']);
 	exit;
 }
 
 if ($action_wp == 'updateWayPoint') {
 	$wayPoint = new WayPoint();
-	$wayPoint -> updateWayPoint($wayPoint, $_POST['id_wayPoint'], $_POST['lattitude'], $_POST['longitude']);
+	$wayPoint -> updateWayPoint($_POST['id_wayPoint'], $_POST['lattitude'], $_POST['longitude']);
 	header('Location: randoCard.php?id_rando='. $donnees['id_rando']);
 	exit;
 }
 
 if ($action_wp == 'deleteWayPoint') {
 	$wayPoint = new WayPoint();
-	$wayPoint -> deleteWayPoint($wayPoint, $_POST['id_wayPoint']);
+	$wayPoint -> deleteWayPoint($_POST['id_wayPoint']);
 	header('Location: randoCard.php?id_rando='. $donnees['id_rando']);
 	exit;
 }
@@ -167,7 +167,7 @@ if ($action_wp == 'deleteWayPoint') {
 	
 	<?php 
 	$wayPoint = new WayPoint();
-	$reponse_wp = $wayPoint -> fetchRandoWayPoint($wayPoint, $id_rando_for_wayPoint);
+	$reponse_wp = $wayPoint -> fetchRandoWayPoint($id_rando_for_wayPoint);
 
 	while ($donnees_wp = $reponse_wp->fetch()) // On affiche chaque entrée une à une
 	{
