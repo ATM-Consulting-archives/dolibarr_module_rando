@@ -52,7 +52,6 @@ if ($action == 'createRando')
 	$Trando ['distance'] = $_POST['distance'];
 	$Trando ['difficulte'] = $_POST['difficulte'];
 		
-
 	$rando -> create($Trando);
 	header('Location: randoCard.php?answer=createOk&name_rando='.$rando->name.'&distance='.$rando->distance. '&difficulte=' .$rando->difficulte);
 	exit;
@@ -73,7 +72,6 @@ if ($action == 'updateRando')
 	$Trando ['name'] = $_POST['name'];
 	$Trando ['distance'] = $_POST['distance'];
 	$Trando ['difficulte'] = $_POST['difficulte'];
-
 
 	$rando -> update($Trando);
 	header('Location: randoCard.php?answer=updateOk&name_rando='.$rando->name.'&distance='.$rando->distance. '&difficulte=' .$rando->difficulte);

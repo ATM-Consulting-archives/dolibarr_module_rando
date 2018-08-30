@@ -2,20 +2,21 @@
 
 include '../connect2.php';
 
+//Ma classe mere dont extends toutes les classes
 class SeedObject {
 
 	// Descripteurs
+	// propriétés définie par les classes en interne
 
 	public $bddTable;
 	public $TFields = array();
 	public $TReferences = array();
 
 	// Données
-
+	// données commune à toutes mes classes
 	public $id;
 
 	// Gestion d'erreurs
-
 	public $TErrors = array();
 
 	public function __construct()
@@ -29,18 +30,20 @@ class SeedObject {
 
 	public function create($TData)
 	{
+		global $bdd;//connexion à la bdd par une supervariable
+		
 		$MesKey = '';//string vide qui se rempli par la boucle foreach, permet de remplir les valeurs pour la requette sql
 		$MesValeurs = '';
 
-// 		$myKeys = implode(', ', array_keys($this->TFields)); Autre façon de faire pour concaténer 
+// 		$myKeys = implode(', ', array_keys($this->TFields)); Autre façon de faire pour concaténer la requete sql
 // 		$TPreparedValues = array();
 		
+//		Preparation de la requete sql en fonction de l'objet à créer
 		$i = 0;
-		
 		foreach ($this->TFields as $key => $dummy)
 		{
 			
-// 			$TPreparedKeys[] = ':'.$key;; Autre façon de faire pour concaténer 
+// 		$TPreparedKeys[] = ':'.$key;; Autre façon de faire pour concaténer la requete sql
 
 			if ($i != 0) {
 				$MesKey = $MesKey.',';
@@ -56,33 +59,31 @@ class SeedObject {
 		}
 		
 // 		$myValues = implode(', ', $TPreparedKeys); Autre façon de faire pour concaténer 
-		
-		global $bdd;//connexion à la bdd par une supervariable
-		
+				
 		$sql = 'INSERT INTO '.$this->bddTable.'('.$MesKey.') VALUES ('.$MesValeurs.')';
 		
 		$req = $bdd->prepare($sql);
+		
 		$TParams = array_intersect_key(get_object_vars($this), $this->TFields);//cette fonction ne garde que les keys qui correspondent entre la bdd et mon $this
 		
 		$req->execute($TParams);
 
-		$this -> id = $bdd -> lastInsertId();
+		$this -> id = $bdd -> lastInsertId();//récupération de la derniére entrée dans la bdd
 	}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////UPDATE
 
 	public function update($TData)
 	{
+		global $bdd;//connexion à la bdd par une supervariable
 		if ($this ->id <= 0 )
 		{
 			return;
 		}
-		global $bdd;//connexion à la bdd par une supervariable
 
 		$stringSql = '';//string vide qui se rempli par la boucle foreach, permet de remplir les valeurs pour la requette sql
 
 		$i = 0;
-		
 		foreach ($this->TFields as $key => $dummy)
 		{
 			if ($i != 0) {
@@ -103,15 +104,13 @@ class SeedObject {
 		$TParams = array_intersect_key(get_object_vars($this), $this->TFields);//cette fonction ne garde que les keys qui correspondent entre la bdd et mon $this TFields
 
 		$req->execute($TParams);
-				
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////DELETE
 	
 	public function delete()
 	{
-		
-		if ($this ->id <= 0 ) 
+		if ($this ->id <= 0 ) //si aucune id n'est presente (aucun objet chargé)
 		{
 			return;
 		}
@@ -119,21 +118,19 @@ class SeedObject {
 		global $bdd;//connexion à la bdd par une supervariable
 		$sql = 'DELETE FROM ' .$this->bddTable. ' WHERE id = '.$this->id;
 
-		$req = $bdd->query($sql);
-		
+		$bdd->query($sql);
 	}
 	
 /////////////////////////////////////////////////////////////////////////////////////////////////////////FETCHALL
 
 	public function fetchAll($TFilter = [])
 	{
+		global $bdd;//connexion à la bdd par une supervariable
 
 		$sql = 'SELECT id FROM '.$this->bddTable.' WHERE 1 ';
 		foreach ($TFilter AS $key => $value) {
 			$sql = $sql . ' AND ' .$key.' = "'.$value.'"';//ATTENTION AU QUOTES !!!!!!!!!
 		}
-
-		global $bdd;//connexion à la bdd par une supervariable
 		
 		$req = $bdd->query($sql);
 
@@ -204,3 +201,5 @@ class SeedObject {
 	}
 	
 }
+	
+
