@@ -3,8 +3,19 @@
 include '../connect2.php';
 
 class SeedObject {
-	
+
+	// Descripteurs
+
+	public $bddTable;
 	public $TFields = array();
+	public $TReferences = array();
+
+	// Données
+
+	public $id;
+
+	// Gestion d'erreurs
+
 	public $TErrors = array();
 
 	public function __construct()
@@ -14,6 +25,8 @@ class SeedObject {
 		}
 	}
 	
+//////////////////////////////////////////////////////////////////////////////////////////////////CREATE
+
 	public function create($TData)
 	{
 		$MesKey = '';//string vide qui se rempli par la boucle foreach, permet de remplir les valeurs pour la requette sql
@@ -26,7 +39,9 @@ class SeedObject {
 		
 		foreach ($this->TFields as $key => $dummy)
 		{
-			// 			$TPreparedKeys[] = ':'.$key;; Autre façon de faire pour concaténer 
+			
+// 			$TPreparedKeys[] = ':'.$key;; Autre façon de faire pour concaténer 
+
 			if ($i != 0) {
 				$MesKey = $MesKey.',';
 				$MesValeurs = $MesValeurs.',';
@@ -53,60 +68,9 @@ class SeedObject {
 
 		$this -> id = $bdd -> lastInsertId();
 	}
-	
-	public function fetchAll($TFilter = [])
-	{
-		$sql = 'SELECT id FROM '.$this->bddTable.' WHERE 1 ';
 
-		foreach ($TFilter AS $key => $value) {
-			$sql = $sql . ' AND ' .$key.' = "'.$value.'"';//ATTENTION AU QUOTES !!!!!!!!!
-		}
-		
-		global $bdd;//connexion à la bdd par une supervariable
-		
-		$req = $bdd->query($sql);
+/////////////////////////////////////////////////////////////////////////////////////////////////////UPDATE
 
-		$TResults = $req->fetchAll(PDO::FETCH_ASSOC);
-		$TOut = array();
-
-		$classname = get_class($this);
-
-		foreach ($TResults as $TObj)
-		{
-			$obj = new $classname();
-			$obj->fetchOne($TObj['id']);
-			$TOut[] = $obj;
-		}
-		return $TOut;
-	}
-	
-	public function fetchOne($id)
-	{	
-		global $bdd;//connexion à la bdd par une supervariable
-		
-		$sql = 'SELECT * FROM ' .$this->bddTable. ' WHERE id = '.$id;
-		$req = $bdd->query($sql);
-		
-		if ($req === false) {
-			$this->TErrors[] = 'Bad SQL request';
-			return -1;
-		}
-		
-		$TResults = $req->fetch(PDO::FETCH_ASSOC);
-
-		if ($TResults === false) {
-			$this->TErrors[] = 'No entry in result set';
-			return -2;
-		}
-		
-		foreach ($TResults as $key => $value)
-		{
-			$this -> {$key} = $value;
-		}
-
-		return 1;
-	}
-	
 	public function update($TData)
 	{
 		if ($this ->id <= 0 )
@@ -142,6 +106,8 @@ class SeedObject {
 				
 	}
 	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////DELETE
+	
 	public function delete()
 	{
 		
@@ -156,5 +122,85 @@ class SeedObject {
 		$req = $bdd->query($sql);
 		
 	}
+	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////FETCHALL
+
+	public function fetchAll($TFilter = [])
+	{
+
+		$sql = 'SELECT id FROM '.$this->bddTable.' WHERE 1 ';
+		foreach ($TFilter AS $key => $value) {
+			$sql = $sql . ' AND ' .$key.' = "'.$value.'"';//ATTENTION AU QUOTES !!!!!!!!!
+		}
+
+		global $bdd;//connexion à la bdd par une supervariable
 		
+		$req = $bdd->query($sql);
+
+		$TResults = $req->fetchAll(PDO::FETCH_ASSOC);
+		$TOut = array();
+		
+		$classname = get_class($this);
+		
+		foreach ($TResults as $TObj)
+		{
+			$obj = new $classname();
+			$obj->fetchOne($TObj['id']);
+			$TOut[] = $obj;
+		}
+		return $TOut;
+	}
+	
+////////////////////////////////////////////////////////////////////////////FETCHONE
+
+	public function fetchOne($id)
+	{
+		global $bdd;//connexion à la bdd par une supervariable
+		
+		$sql = 'SELECT * FROM ' .$this->bddTable. ' WHERE id = '.$id;
+		$req = $bdd->query($sql);
+		
+		if ($req === false) {
+			$this->TErrors[] = 'Bad SQL request';
+			return -1;
+		}
+		
+ 		$TResults = $req->fetch(PDO::FETCH_ASSOC);
+		
+		if ($TResults === false) {
+			$this->TErrors[] = 'No entry in result set';
+			return -2;
+		}
+		
+		foreach ($TResults as $key => $value)
+		{
+			$this -> {$key} = $value;
+		}
+		
+		if(! empty($this->TReferences)) {
+			$this -> fetchReferences();
+		}
+
+		return 1;
+	}
+
+////////////////////////////////////////////////////////////////////////////FETCHREFERENCE
+	
+	public function fetchReferences ()
+	{
+		if ($this ->id <= 0)
+		{
+			return;
+		}
+
+		foreach($this->TReferences AS $key => $value) {
+			$obj = new $key();
+
+			$TFilter = array($value => $this->id);
+			$newvar = 'T'.$key.'s';
+
+			$this -> $newvar = $obj-> fetchAll($TFilter);
+		}
+	}
+	
 }

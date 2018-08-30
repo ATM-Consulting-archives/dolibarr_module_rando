@@ -2,12 +2,14 @@
 include 'SeedObject.php';
 include 'Rando.php';
 include 'WayPoint.php';
+include_once 'Randonneur.class.php';
 
 
 //je determine si j'ai des valeurs d'entrée par un id et j'affecte cette valeur à ma variable pour déterminer la suite
 $id_rando = $_POST['id_rando'];
 
 $rando = new Rando();
+
 //je verifie si j'ai une valeur d'id
 if (empty ($id_rando))
 {
@@ -16,7 +18,9 @@ if (empty ($id_rando))
 
 if (!empty ($id_rando) )
 {
-	$ret = $rando->fetchOne($id_rando);
+	$TRet = $rando->fetchOne($id_rando);
+// 	var_dump($TRet);
+// 	exit;
 	//if($ret < 0) setEventMessage('Error '.$ret, $rando->TErrors);
 }
 
@@ -135,6 +139,9 @@ if ($action_wp == 'deleteWayPoint')
 	exit;
 }
 
+
+
+
 include '../layout/layoutStart.php';
 ?>
 <a href="http://localhost/dolibarr/htdocs/custom/rando/reboot/test4/randoCard.php">Créer une rando</a>
@@ -200,14 +207,9 @@ include '../layout/layoutStart.php';
 <br>
 	
 	<?php 
-
 	if (!empty($id_rando))
 	{
-		
-		$TFilter = array('fk_id_rando' => $rando->id);
-
-		$Wp = new wayPoint();
-		$TWayPoint = $Wp -> fetchAll($TFilter);
+	
 		?>
 		<table class="center">
 			<thead>
@@ -220,7 +222,7 @@ include '../layout/layoutStart.php';
 				<td>Longitude</td>
 			</tr>
 		<?php 
-		foreach ($TWayPoint AS $wayPoint) // On affiche chaque entrée une à une
+		foreach ($rando->TWayPoints AS $wayPoint) // On affiche chaque entrée une à une
 		{
 		?><!--  on ferme le php-->
 		
@@ -228,7 +230,7 @@ include '../layout/layoutStart.php';
 		<tr>
 			<form action="http://localhost/dolibarr/htdocs/custom/rando/reboot/test4/randoCard.php" method="post">
 				<input type="hidden" name="id_wayPoint" value="<?php echo $wayPoint->id; ?>">
-				<input type="hidden" name="fk_id_rando" value="<?php echo $rando->id; ?>">
+				<input type="hidden" name="fk_id_rando" value="<?php echo $id_rando; ?>">
 				<input type="hidden" name="action_wp" value="updateWayPoint">
 				<td>
 					<input type="text" id="lattitude" name="lattitude" value="<?php echo $wayPoint->lattitude ;?>">			 
@@ -243,7 +245,7 @@ include '../layout/layoutStart.php';
 				<td>
 					<form action="http://localhost/dolibarr/htdocs/custom/rando/reboot/test4/randoCard.php" method="post">
 						<input type="hidden" name="id_wayPoint" value="<?php echo $wayPoint->id; ?>">
-						<input type="hidden" name="id_rando" value="<?php echo $rando->id; ?>">
+						<input type="hidden" name="id_rando" value="<?php echo $id_rando; ?>">
 							<input type="hidden" name="action_wp" value="deleteWayPoint">
 							<button type="submit">Supprimer</button>
 						</form>
@@ -258,7 +260,7 @@ include '../layout/layoutStart.php';
 	
 	<tr>
 		<form action="http://localhost/dolibarr/htdocs/custom/rando/reboot/test4/randoCard.php" method="post">
-			<input type="hidden" name="id_rando" value="<?php echo $rando->id; ?>">
+			<input type="hidden" name="id_rando" value="<?php echo $id_rando; ?>">
 			<input type="hidden" name="action_wp" value="createWayPoint">
 			<td>
 				<input type="text" id="lattitude" name="lattitude" placeholder="saisir une lattitude">
